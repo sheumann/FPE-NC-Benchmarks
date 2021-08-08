@@ -36,95 +36,95 @@
 ;        WHICH VARY FROM STATE TO STATE.
 ;
 ;................................................................
-FPEEqus  data
+;FPEEqus  data
 ;
 ;       MC68881 OP CODES
 ;
-FMOVE   EQU     $00     MOVE
-FINT    EQU     $01     INTEGER PART
-FSINH   EQU     $02     SINH
-FINTRZ  EQU     $03     INTEGER PART (ROUND TO ZERO)
-FSQRT   EQU     $04     SQUARE ROOT
-FLOGNP1 EQU     $06     LOGN(1+X)
-FETOXM1 EQU     $08     ((E**X)-1))
-FTANH   EQU     $09     TANH
-FATAN   EQU     $0A     ARCTAN
-FASIN   EQU     $0C     ARCSIN
-FATANH  EQU     $0D     ARCTANH
-FSIN    EQU     $0E     SINE
-FTAN    EQU     $0F     TANGENT
-FETOX   EQU     $10     E**X
-FTWOTOX EQU     $11     2**X
-FTENTOX EQU     $12     10**X
-FLOGN   EQU     $14     LOGN
-FLOG10  EQU     $15     LOG10
-FLOG2   EQU     $16     LOG2
-FABS    EQU     $18     ABSOLUTE VALUE
-FCOSH   EQU     $19     COSH
-FNEG    EQU     $1A     NEGATE
-FACOS   EQU     $1D     COSINET
-FGETEXP EQU     $1E     GET EXPONENT
-FGETMAN EQU     $1F     GET MANTISSA
-FDIV    EQU     $20     DIVIDE
-FMOD    EQU     $21     MODULO REMAINDER
-FADD    EQU     $22     ADD
-FMUL    EQU     $23     MULTIPLY
-FSGLDIV EQU     $24     SINGLE DIVIDE
-FREM    EQU     $25     IEEE REMAINDER
-FSCALE  EQU     $26     SCALE EXPONENT
-FSGLMUL EQU     $27     SINGLE MULTIPLY
-FSUB    EQU     $28     SUBTRACT
-FSINCOS EQU     $30     SINE & COSINE SIMULTANEOUSLY
-FCMP    EQU     $38     COMPARE
-FTST    EQU     $3A     TEST
+FMOVE   GEQU     $00     MOVE
+FINT    GEQU     $01     INTEGER PART
+FSINH   GEQU     $02     SINH
+FINTRZ  GEQU     $03     INTEGER PART (ROUND TO ZERO)
+FSQRT   GEQU     $04     SQUARE ROOT
+FLOGNP1 GEQU     $06     LOGN(1+X)
+FETOXM1 GEQU     $08     ((E**X)-1))
+FTANH   GEQU     $09     TANH
+FATAN   GEQU     $0A     ARCTAN
+FASIN   GEQU     $0C     ARCSIN
+FATANH  GEQU     $0D     ARCTANH
+FSIN    GEQU     $0E     SINE
+FTAN    GEQU     $0F     TANGENT
+FETOX   GEQU     $10     E**X
+FTWOTOX GEQU     $11     2**X
+FTENTOX GEQU     $12     10**X
+FLOGN   GEQU     $14     LOGN
+FLOG10  GEQU     $15     LOG10
+FLOG2   GEQU     $16     LOG2
+FABS    GEQU     $18     ABSOLUTE VALUE
+FCOSH   GEQU     $19     COSH
+FNEG    GEQU     $1A     NEGATE
+FACOS   GEQU     $1D     COSINET
+FGETEXP GEQU     $1E     GET EXPONENT
+FGETMAN GEQU     $1F     GET MANTISSA
+FDIV    GEQU     $20     DIVIDE
+FMOD    GEQU     $21     MODULO REMAINDER
+FADD    GEQU     $22     ADD
+FMUL    GEQU     $23     MULTIPLY
+FSGLDIV GEQU     $24     SINGLE DIVIDE
+FREM    GEQU     $25     IEEE REMAINDER
+FSCALE  GEQU     $26     SCALE EXPONENT
+FSGLMUL GEQU     $27     SINGLE MULTIPLY
+FSUB    GEQU     $28     SUBTRACT
+FSINCOS GEQU     $30     SINE & COSINE SIMULTANEOUSLY
+FCMP    GEQU     $38     COMPARE
+FTST    GEQU     $3A     TEST
 ;
 ;
-COMMAND   EQU   $08
-CONTROL   EQU   $02
-RESPONSE  EQU   $00
-OPERAND   EQU   $0C
-CONDITION EQU   $0A
-SAVE      EQU   $04
-RESTORE   EQU   $06
-MCONTROL  EQU   $9000   MC68881 CONTROL REGISTER
-MSTATUS   EQU   $8800   MC68881 STATUS REGISTER
-IADDRESS  EQU   $8400   INSTRUCTION ADDRESS REGISTER
+COMMAND   GEQU   $08
+CONTROL   GEQU   $02
+RESPONSE  GEQU   $00
+OPERAND   GEQU   $0C
+CONDITION GEQU   $0A
+SAVE      GEQU   $04
+RESTORE   GEQU   $06
+MCONTROL  GEQU   $9000   MC68881 CONTROL REGISTER
+MSTATUS   GEQU   $8800   MC68881 STATUS REGISTER
+IADDRESS  GEQU   $8400   INSTRUCTION ADDRESS REGISTER
 ;
-FP0     EQU     $00     FLOATING POINT REGISTER #0
-FP1     EQU     $01
-FP2     EQU     $02
-FP3     EQU     $03
-FP4     EQU     $04
-FP5     EQU     $05
-FP6     EQU     $06
-FP7     EQU     $07
+FP0     GEQU     $00     FLOATING POINT REGISTER #0
+FP1     GEQU     $01
+FP2     GEQU     $02
+FP3     GEQU     $03
+FP4     GEQU     $04
+FP5     GEQU     $05
+FP6     GEQU     $06
+FP7     GEQU     $07
 ;
 ;        constants in ROM
 ;
-FMOVEROM EQU   $5C                      MOVE CONSTANT FROM ROM TO
+FMOVEROM GEQU   $5C                      MOVE CONSTANT FROM ROM TO
 ;                                         REGISTER
-RPI      EQU   $00                      PI
-RL102    EQU   $0B                      LOG10(2)
-REXP     EQU   $0C                      E
-RL2EXP   EQU   $0D                      LOG2(E)
-RL10EXP  EQU   $0E                      LOG10(E)
-RZERO    EQU   $0F                      0.0
-RLN2     EQU   $30                      LOGN(2)
-RLN10    EQU   $31                      LOGN(10)
-R10T0    EQU   $32                      10^0
-R10T1    EQU   $33                      10^1
-R10T2    EQU   $34                      10^2
-R10T4    EQU   $35                      10^4
-R10T8    EQU   $36                      10^8
-R10T16   EQU   $37                      10^16
-R10T32   EQU   $38                      10^32
-R10T64   EQU   $39                      10^64
-R10T128  EQU   $3A                      10^128
-R10T256  EQU   $3B                      10^256
-R10T512  EQU   $3C                      10^512
-R10T1024 EQU   $3D                      10^1024
-R10T2048 EQU   $3E                      10^2048
-R10T4096 EQU   $3F                      10^4096
+RPI      GEQU   $00                      PI
+RL102    GEQU   $0B                      LOG10(2)
+REXP     GEQU   $0C                      E
+RL2EXP   GEQU   $0D                      LOG2(E)
+RL10EXP  GEQU   $0E                      LOG10(E)
+RZERO    GEQU   $0F                      0.0
+RLN2     GEQU   $30                      LOGN(2)
+RLN10    GEQU   $31                      LOGN(10)
+R10T0    GEQU   $32                      10^0
+R10T1    GEQU   $33                      10^1
+R10T2    GEQU   $34                      10^2
+R10T4    GEQU   $35                      10^4
+R10T8    GEQU   $36                      10^8
+R10T16   GEQU   $37                      10^16
+R10T32   GEQU   $38                      10^32
+R10T64   GEQU   $39                      10^64
+R10T128  GEQU   $3A                      10^128
+R10T256  GEQU   $3B                      10^256
+R10T512  GEQU   $3C                      10^512
+R10T1024 GEQU   $3D                      10^1024
+R10T2048 GEQU   $3E                      10^2048
+R10T4096 GEQU   $3F                      10^4096
 ;
 ;        BIT DEFINITIONS IN MC68881 STATUS REGISTER
 ;
@@ -135,32 +135,32 @@ R10T4096 EQU   $3F                      10^4096
 ;
 ;        >>>>byte 0 (Accrued Exception Byte) [Used for Halt]
 ;
-INEX_FPU EQU   8                        Inexact
-DZ_FPU   EQU   $10                      Divide by zero
-UNFL_FPU EQU   $20                      Underflow
-OVFL_FPE EQU   $40                      Overflow
-IOP_FPE  EQU   $80                      Invalid operation
+INEX_FPU GEQU   8                        Inexact
+DZ_FPU   GEQU   $10                      Divide by zero
+UNFL_FPU GEQU   $20                      Underflow
+OVFL_FPE GEQU   $40                      Overflow
+IOP_FPE  GEQU   $80                      Invalid operation
 ;
 ;        >>>>byte 1 (Exception Status Byte) [Used for Exceptions]
 ;
-INEX1_FPU EQU  $100                     Inexact decimal input
-INEX2_FPU EQU  $200                     Inexact operation
-DZ1_FPU   EQU  $400                     Divide by zero
-UNFL1_FPU EQU  $800                     Underflow
-OVFL1_FPU EQU  $1000                    Overflow
-OPERR_FPU EQU  $2000                    Operand error
-SNAN_FPU  EQU  $4000                    Signalling NaN
+INEX1_FPU GEQU  $100                     Inexact decimal input
+INEX2_FPU GEQU  $200                     Inexact operation
+DZ1_FPU   GEQU  $400                     Divide by zero
+UNFL1_FPU GEQU  $800                     Underflow
+OVFL1_FPU GEQU  $1000                    Overflow
+OPERR_FPU GEQU  $2000                    Operand error
+SNAN_FPU  GEQU  $4000                    Signalling NaN
 ;
 ;        >>>>byte 2 (Quotient Byte) [Used by MOD and REM]
 ;
-SIGN_FPU EQU   8                        sign of quotient
+SIGN_FPU GEQU   8                        sign of quotient
 ;
 ;        >>>>byte 3 (Condition Code Byte)
 ;
-NAN_FPU  EQU   $100                     Not A Number
-INF_FPU  EQU   $200                     Infinity
-ZERO_FPU EQU   $400                     Zero value
-NEG_FPU  EQU   $800                     Negative Value
+NAN_FPU  GEQU   $100                     Not A Number
+INF_FPU  GEQU   $200                     Infinity
+ZERO_FPU GEQU   $400                     Zero value
+NEG_FPU  GEQU   $800                     Negative Value
 ;
 ;        BIT DEFINITIONS FOR MC68881 CONTROL REGISTER
 ;
@@ -177,15 +177,15 @@ NEG_FPU  EQU   $800                     Negative Value
 ;
 ;        mask bits
 ;
-RND2NR_FPU EQU $00                     round to nearest
-RND2Z_FPU  EQU $10                         "     zero
-RND2NI_FPU EQU $20                        "     negative inf
-RND2PI_FPU EQU $30                        "     positive inf
+RND2NR_FPU GEQU $00                     round to nearest
+RND2Z_FPU  GEQU $10                         "     zero
+RND2NI_FPU GEQU $20                        "     negative inf
+RND2PI_FPU GEQU $30                        "     positive inf
 ;
-PRE_FPU EQU   $00                      rounding precision extended
-PRS_FPU EQU   $40                         "         "     single
-PRD_FPU EQU   $80                         "         "     double
+PRE_FPU GEQU   $00                      rounding precision extended
+PRS_FPU GEQU   $40                         "         "     single
+PRD_FPU GEQU   $80                         "         "     double
 ;
 ;        >>>>>>bytes 2 and 3 not used
 ;
-         end
+;         end
