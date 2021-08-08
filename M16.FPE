@@ -1,0 +1,481 @@
+***************************************************
+*
+*        MACRO DEFINITIONS FOR USE WITH THE iS FPE
+*        INSTALLED IN A 65816-BASED APPLE II.
+*
+*        COPYRIGHT (C) 1988 BY INNOVATIVE SYSTEMS
+*
+****************************************************
+;................................................................
+;
+;        This software is provided for your evaluation and to
+;        assist you in developing software for an Apple II
+;        family computer which has an iS Floating Point Engine.
+;
+;        DISCLAIMER OF WARRANTY
+;
+;        THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+;        ANY KIND, EITHER EXPRESS OR IMPLIED, WITH RESPECT TO
+;        ITS MERCHANTABILITY OR ITS FITNESS FOR ANY PARTICULAR
+;        PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND
+;        PERFORMANCE OF THE SOFTWARE IS WITH YOU.  SHOULD THE
+;        SOFTWARE PROVE DEFECTIVE, YOU (AND NOT INNOVATIVE
+;        SYSTEMS OR AN INNOVATIVE SYSTEMS AUTHORIZED REPRESENTATIVE)
+;        ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING, REPAIR
+;        OR CORRECTION.
+;
+;        Innovative Systems does not warrant that the functions
+;        contained in the Software will meet your requirements
+;        or that the operation of the software will be
+;        uninterrupted or error free or that defects in the
+;        Software will be corrected.
+;
+;        SOME STATES DO NOT ALLOW THE EXCLUSION OF IMPLIED
+;        WARRANTIES, SO THE ABOVE EXCLUSION MAY NOT APPLY TO
+;        YOU.  THIS WARRANTY GIVES YOU SPECIFIC LEGAL RIGHTS
+;        WHICH VARY FROM STATE TO STATE.
+;
+;................................................................
+*
+;        &L ---- LABEL FOR THE MACRO IN THE SOURCE
+;                CODE LINE, MUST BE UNIQUE TO EACH
+;                USAGE OF A MACRO IN A ROUTINE
+;                (MANDATORY)
+;        &INS -- INSTRUCTION TO FPE
+;        &FPM -- FLOATING POINT REGISTER NUMBER
+;        &ADDR - ADDRESS OF THE DATA VALUE (2 OR
+;                3 BYTES)
+*
+;
+;        MC68881 IS A LOCATION IN THE PROGRAM
+;        DIRECT PAGE WHICH CONTAINS THE ADDRESS
+;        OF THE FPE BASE REGISTER, IN THE FORM
+;        OF A THREE-BYTE ADDRESS WITH THE LOW
+;        ORDER ADDRESS BYTE FIRST
+;
+*
+;        MOVE SINGLE PRECISION FP-REG TO MEM
+;
+         MACRO
+&L       REGMEMS        &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$6400+(&FPM|7)+&INS
+         XBA
+         STA   [<MC68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<MC68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   [<MC68881],Y
+         XBA
+         STA   &ADDR+2
+         INY
+         INY
+         LDA   [<MC68881],Y              DUMMY READ
+         XBA
+         STA   &ADDR
+         LDY   #RESPONSE
+M2&L     LDA   [<MC68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+; MOVE 32-BIT INTEGER TO MEM
+;
+         MACRO
+&L       REGMEML       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$6000+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M1&L     LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M1&L
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+2
+         INY
+         INY
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR
+         LDY   #RESPONSE
+M3&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M3&L
+         MEND
+;
+;        MOVE 16-BIT INTEGER TO MEMORY
+;
+         MACRO
+&L       REGMEMW       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$7000+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M1&L     LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M1&L
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR
+         LDY   #RESPONSE
+M3&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M3&L 
+         MEND
+;
+;        MOVE DOUBLE PRECISION FP TO MEMORY
+;
+         MACRO
+&L       REGMEMD       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$7400+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+6
+         INY
+         INY
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+4
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+2
+         INY
+         INY
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        MOVE EXTENDED PRECISION FP TO MEMORY
+;
+         MACRO
+&L       REGMEMX       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$6800+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+8
+         INY                            DUMMY READ -- REQUIRED!!
+         INY
+         LDA   [<mc68881],Y
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+6
+         INY
+         INY
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+4
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+2
+         INY
+         INY
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        WORD IN MEMORY TO FP REG
+;
+         MACRO
+&L       MEMREGW       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$5000+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   &ADDR
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        MOVE 32-BIT INT TO FP-REG
+;
+         MACRO
+&L       MEMREGL       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$4000+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   &ADDR+2
+         XBA
+         STA   [<mc68881],Y
+         INY
+         INY
+         LDA   &ADDR
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        MOVE SINGLE PRECISION FP MEMORY TO FP-REG
+;
+         MACRO
+&L       MEMREGS       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$4400+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   &ADDR+2
+         XBA
+         STA   [<mc68881],Y
+         INY
+         INY
+         LDA   &ADDR
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        MOVE DOUBLE-PRECISION MEMORY TO FP-REG
+;
+         MACRO
+&L       MEMREGD       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$5400+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   &ADDR+6
+         XBA
+         STA   [<mc68881],Y
+         INY
+         INY
+         LDA   &ADDR+4
+         XBA
+         STA   [<mc68881],Y
+         LDY   #OPERAND
+         LDA   &ADDR+2
+         XBA
+         STA   [<mc68881],Y
+         INY
+         INY
+         LDA   &ADDR
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        MOVE EXTENDED FP MEMORY TO FP-REGISTER
+;
+         MACRO
+&L       MEMREGX       &INS,&FPM,&ADDR
+&L       LDY   #COMMAND
+         LDA   #$4800+(&FPM|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   &ADDR+8
+         XBA
+         STA   [<mc68881],Y
+         LDA   #0                       DUMMY WRITE -- REQUIRED!!
+         INY
+         INY
+         STA   [<mc68881],Y
+         LDY   #OPERAND
+         LDA   &ADDR+6
+         XBA
+         STA   [<mc68881],Y
+         INY
+         INY
+         LDA   &ADDR+4
+         XBA
+         STA   [<mc68881],Y
+         LDY   #OPERAND
+         LDA   &ADDR+2
+         XBA
+         STA   [<mc68881],Y
+         INY
+         INY
+         LDA   &ADDR
+         XBA
+         STA   [<mc68881],Y  
+         LDY   #RESPONSE
+M2&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M2&L 
+         MEND
+;
+;        MOVE FP-REGF TO FP-REG
+;
+;
+         MACRO
+&L       REGREG        &INS,&FPM,&FPN
+&L       LDY   #COMMAND
+         LDA   #(&FPM|10)+(&FPN|7)+&INS
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M&L
+         MEND
+;
+;        MOVE A CONSTANT FROM ROM TO A REGISTER
+;
+;
+         MACRO
+&L       REGREGR       &CC,&FPM
+&L       LDY   #COMMAND
+         LDA   #$5C00+(&FPM|7)+&CC
+         XBA
+         STA   [<MC68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<MC68881],Y
+         XBA
+         ASL   A
+         BCS   M&L
+         MEND
+;
+;        FSINCOS CALL
+;
+;              REQUIRES A SECOND DESTINATION REGISTER
+;
+         MACRO
+&L       RFSINCOS       &FPM,&FPN,&FPQ
+&L       LDY   #COMMAND
+         LDA   #((&FPM|10)+(&FPQ|7)+(&FPN)+(FSINCOS))
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M&L
+         MEND
+;
+;        MACRO TO READ MC68881 STATUS OR CONTROL REGISTER TO
+;        DIRECT PAGE LOCATION
+;
+;
+         MACRO
+&L       GETFPSR         &FPM,&ADDR
+&L       LDA   #$2000+&FPM
+         XBA
+         LDY   #COMMAND
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR+2
+         LDY   #OPERAND+2
+         LDA   [<mc68881],Y
+         XBA
+         STA   &ADDR
+         LDY   #RESPONSE
+M1&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M1&L
+         MEND
+;
+;        MACRO TO WRITE MC68881 STATUS OR CONTROL REGISTER
+;        FROM DIRECT PAGE LOCATION
+;
+&L       PUTFPSR         &FPM,&ADDR
+&L       LDA   #&FPM
+         XBA
+         LDY   #COMMAND
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M&L      LDA   [<mc68881],Y
+         CMP   #$0089
+         BEQ   M&L
+         LDY   #OPERAND
+         LDA   &ADDR+2
+         XBA
+         STA   [<mc68881],Y
+         LDY   #OPERAND+2
+         LDA   &ADDR
+         XBA
+         STA   [<mc68881],Y
+         LDY   #RESPONSE
+M1&L     LDA   [<mc68881],Y
+         XBA
+         ASL   A
+         BCS   M1&L
+         MEND
