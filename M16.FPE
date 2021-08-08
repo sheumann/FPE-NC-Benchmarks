@@ -40,7 +40,6 @@
 ;        &L ---- LABEL FOR THE MACRO IN THE SOURCE
 ;                CODE LINE, MUST BE UNIQUE TO EACH
 ;                USAGE OF A MACRO IN A ROUTINE
-;                (MANDATORY)
 ;        &INS -- INSTRUCTION TO FPE
 ;        &FPM -- FLOATING POINT REGISTER NUMBER
 ;        &ADDR - ADDRESS OF THE DATA VALUE (2 OR
@@ -63,9 +62,9 @@
          XBA
          STA   [<MC68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<MC68881],Y
+M&SYSCNT      LDA   [<MC68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   [<MC68881],Y
          XBA
@@ -76,10 +75,10 @@ M&L      LDA   [<MC68881],Y
          XBA
          STA   &ADDR
          LDY   #RESPONSE
-M2&L     LDA   [<MC68881],Y
+M2_&SYSCNT     LDA   [<MC68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ; MOVE 32-BIT INTEGER TO MEM
@@ -91,9 +90,9 @@ M2&L     LDA   [<MC68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M1&L     LDA   [<mc68881],Y
+M1_&SYSCNT     LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M1&L
+         BEQ   M1_&SYSCNT
          LDY   #OPERAND
          LDA   [<mc68881],Y
          XBA
@@ -104,10 +103,10 @@ M1&L     LDA   [<mc68881],Y
          XBA
          STA   &ADDR
          LDY   #RESPONSE
-M3&L     LDA   [<mc68881],Y
+M3_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M3&L
+         BCS   M3_&SYSCNT
          MEND
 ;
 ;        MOVE 16-BIT INTEGER TO MEMORY
@@ -119,18 +118,18 @@ M3&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M1&L     LDA   [<mc68881],Y
+M1_&SYSCNT     LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M1&L
+         BEQ   M1_&SYSCNT
          LDY   #OPERAND
          LDA   [<mc68881],Y
          XBA
          STA   &ADDR
          LDY   #RESPONSE
-M3&L     LDA   [<mc68881],Y
+M3_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M3&L 
+         BCS   M3_&SYSCNT 
          MEND
 ;
 ;        MOVE DOUBLE PRECISION FP TO MEMORY
@@ -142,9 +141,9 @@ M3&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   [<mc68881],Y
          XBA
@@ -164,10 +163,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   &ADDR
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        MOVE EXTENDED PRECISION FP TO MEMORY
@@ -179,9 +178,9 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   [<mc68881],Y
          XBA
@@ -208,10 +207,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   &ADDR
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        WORD IN MEMORY TO FP REG
@@ -223,18 +222,18 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   &ADDR
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        MOVE 32-BIT INT TO FP-REG
@@ -246,9 +245,9 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   &ADDR+2
          XBA
@@ -259,10 +258,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        MOVE SINGLE PRECISION FP MEMORY TO FP-REG
@@ -274,9 +273,9 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   &ADDR+2
          XBA
@@ -287,10 +286,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        MOVE DOUBLE-PRECISION MEMORY TO FP-REG
@@ -302,9 +301,9 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   &ADDR+6
          XBA
@@ -324,10 +323,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        MOVE EXTENDED FP MEMORY TO FP-REGISTER
@@ -339,9 +338,9 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   &ADDR+8
          XBA
@@ -369,10 +368,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y  
          LDY   #RESPONSE
-M2&L     LDA   [<mc68881],Y
+M2_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M2&L 
+         BCS   M2_&SYSCNT 
          MEND
 ;
 ;        MOVE FP-REGF TO FP-REG
@@ -385,10 +384,10 @@ M2&L     LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M&L
+         BCS   M&SYSCNT
          MEND
 ;
 ;        MOVE A CONSTANT FROM ROM TO A REGISTER
@@ -401,10 +400,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   [<MC68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<MC68881],Y
+M&SYSCNT      LDA   [<MC68881],Y
          XBA
          ASL   A
-         BCS   M&L
+         BCS   M&SYSCNT
          MEND
 ;
 ;        FSINCOS CALL
@@ -418,10 +417,10 @@ M&L      LDA   [<MC68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M&L
+         BCS   M&SYSCNT
          MEND
 ;
 ;        MACRO TO READ MC68881 STATUS OR CONTROL REGISTER TO
@@ -435,9 +434,9 @@ M&L      LDA   [<mc68881],Y
          LDY   #COMMAND
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   [<mc68881],Y
          XBA
@@ -447,10 +446,10 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   &ADDR
          LDY   #RESPONSE
-M1&L     LDA   [<mc68881],Y
+M1_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M1&L
+         BCS   M1_&SYSCNT
          MEND
 ;
 ;        MACRO TO WRITE MC68881 STATUS OR CONTROL REGISTER
@@ -462,9 +461,9 @@ M1&L     LDA   [<mc68881],Y
          LDY   #COMMAND
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M&L      LDA   [<mc68881],Y
+M&SYSCNT      LDA   [<mc68881],Y
          CMP   #$0089
-         BEQ   M&L
+         BEQ   M&SYSCNT
          LDY   #OPERAND
          LDA   &ADDR+2
          XBA
@@ -474,8 +473,8 @@ M&L      LDA   [<mc68881],Y
          XBA
          STA   [<mc68881],Y
          LDY   #RESPONSE
-M1&L     LDA   [<mc68881],Y
+M1_&SYSCNT     LDA   [<mc68881],Y
          XBA
          ASL   A
-         BCS   M1&L
+         BCS   M1_&SYSCNT
          MEND
